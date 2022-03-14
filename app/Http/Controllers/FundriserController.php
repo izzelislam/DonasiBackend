@@ -44,7 +44,7 @@ class FundriserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'teams_id' => 'required',
+            'team_id' => 'required',
             'name' => 'required',
             'phone_number' => 'required',
             'email' => 'required|email|unique:users',

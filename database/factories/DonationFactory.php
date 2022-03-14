@@ -33,7 +33,7 @@ class DonationFactory extends Factory
             'type' => $fake->randomElement($type),
             'amount' => $fake->randomFloat(1000, 5000000),
             'note' => $fake->text(100),
-            // 'created_at' => $fake->dateTimeBetween('-1 years', 'now'),
+            'created_at' => $fake->dateTimeBetween('-5 years', 'now'),
         ];
     }
 }

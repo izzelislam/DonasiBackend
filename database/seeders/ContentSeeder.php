@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\Donation;
+use App\Models\Content;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class DonationSeeder extends Seeder
+class ContentSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,7 +15,6 @@ class DonationSeeder extends Seeder
      */
     public function run()
     {
-        // Donation::truncate();
-        Donation::factory()->count(7000)->create();
+        Content::factory()->count(20)->create();
     }
 }

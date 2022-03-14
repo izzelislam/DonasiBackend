@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -38,6 +39,9 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    protected $appends = [
+        'image_url',
+    ];
     /**
      * The attributes that should be cast.
      *
@@ -50,5 +54,14 @@ class User extends Authenticatable
     public function team()
     {
         return $this->belongsTo(Team::class);
+    }
+
+    public function getImageUrlAttribute()
+    {
+        if($this->image){
+            return url('storage/'.$this->image);
+        }else{
+            return Storage::url('images/profile/default.png');
+        }
     }
 }

@@ -5,26 +5,24 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Setting extends Model
+class Content extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'name',
+        'title',
         'image',
-        'phone_number',
-        'address',
+        'content'
     ];
 
     protected $appends = [
-        'image_url',
+        'image_link'
     ];
 
-    public function getImageUrlAttribute()
-    {
-        if($this->image){
-            return url('storage/'.$this->image);
-        }else{
+    public function getImageLinkAttribute() {
+        if ($this->image) {
+            return url('storage/' . $this->image);
+        } else {
             return '-';
         }
     }

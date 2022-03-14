@@ -36,6 +36,7 @@ class AuthController extends Controller
             if (Auth::user()->role == 'admin') {
                 return redirect()->route('dashboard');
             } else {
+                $this->logout();
                 return redirect()->back()->with('error', 'Anda tidak memiliki akses');
             }
         }else{

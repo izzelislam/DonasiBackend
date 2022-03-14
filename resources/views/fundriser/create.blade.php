@@ -15,7 +15,7 @@
         @method('PUT')
       @endisset
       <x-form-select
-        name="teams_id"
+        name="team_id"
         label="Pilih Tim"
         :options="$teams"
         value="{{ $model->team_id ?? '' }}"

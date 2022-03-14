@@ -12,6 +12,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Exception;
 
 class DonorController extends Controller
 {
@@ -133,18 +134,22 @@ class DonorController extends Controller
      */
     public function destroy($id)
     {
-        $donor = Donor::find($id);
+        try {
+            $donor = Donor::find($id);
 
-        // check if file exists in public/qr
-        if (file_exists(public_path('/' . $donor->qr))) {
-            unlink(public_path('/' . $donor->qr));
+            // check if file exists in public/qr
+            if (file_exists(public_path('/' . $donor->qr))) {
+                unlink(public_path('/' . $donor->qr));
+            }
+
+            // delete data
+            $donor->delete();
+
+            // redirect to index
+            return redirect()->route('donors.index')->with('success', 'Data has been deleted');
+        } catch (Exception $err) {
+            return redirect()->route('donors.index')->with('error', 'donatur tidak bisa di hapus, ada data donation yang terkait');
         }
-
-        // delete data
-        $donor->delete();
-
-        // redirect to index
-        return redirect()->route('donors.index')->with('success', 'Data has been deleted');
         
     }
 

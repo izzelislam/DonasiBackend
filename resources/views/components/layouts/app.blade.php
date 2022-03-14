@@ -31,8 +31,19 @@ in all copies or substantial portions of the Software.
       <div class="container-fluid py-4">
         
         @if (session('success'))
-          <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
+          <div class="alert alert-success alert-dismissible fade show " role="alert">
+            <span class="text-white">
+              {{ session('success') }}
+            </span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+              <i class="fa fa-times"></i>
+            </button>
+          </div>
+        @endif
+
+        @if (session('error'))
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <span class="text-white">{{ session('error') }}</span>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
               <i class="fa fa-times"></i>
             </button>

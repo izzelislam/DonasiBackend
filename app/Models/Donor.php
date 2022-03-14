@@ -24,6 +24,7 @@ class Donor extends Model
         'status',
     ];
 
+    protected $appends = ['qr_url'];
 
     public function scopeForRegency($query)
     {
@@ -50,6 +51,13 @@ class Donor extends Model
     {
         if (isset(request()->province_id)) {
             $query->where('province_id', request()->province_id);
+        }
+    }
+
+    public function getQrUrlAttribute()
+    {
+        if($this->qr){
+            return url($this->qr);
         }
     }
 
