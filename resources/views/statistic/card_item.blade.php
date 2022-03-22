@@ -68,7 +68,7 @@
         <div class="row">
           <div class="col-8">
             <div class="numbers">
-              <p class="text-sm mb-0 text-uppercase font-weight-bold">JUMLAH SALLDO</p>
+              <p class="text-sm mb-0 text-uppercase font-weight-bold">JUMLAH SALDO</p>
               <h5 class="font-weight-bolder">
                 Rp. {{ number_format($sum_balance) }}
               </h5>

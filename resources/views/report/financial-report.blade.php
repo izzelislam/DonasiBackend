@@ -146,7 +146,7 @@ $month = [
             <td>{{ $index + 1 }}</td>
             <td>{{ $item->title }}</td>
             <td >Rp. {{ number_format($item->amount) }}</td>
-            <td class="text-{{ $item->type == 'income' ? 'success'  : 'danger'}}">{{ $item->type == 'income' ? 'Mausk'  : 'Keluar'}} <i class="fa fa-arrow-{{ $item->type == 'income'? 'down'  : 'up'}}"></i></td>
+            <td class="text-{{ $item->type == 'income' ? 'success'  : 'danger'}}">{{ $item->type == 'income' ? 'Masuk'  : 'Keluar'}} <i class="fa fa-arrow-{{ $item->type == 'income'? 'down'  : 'up'}}"></i></td>
             <td >{{ $item->created_at->format('d/m/Y H:i:s') }}</td>
           </tr>
         @endforeach

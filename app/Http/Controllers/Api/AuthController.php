@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Setting;
+use App\Models\User;
 use Exception;
 
 class AuthController extends Controller
@@ -60,8 +61,7 @@ class AuthController extends Controller
     public function me()
     {
         try {
-            $user = Auth::user();
-
+            $user = User::with('team')->where('id', Auth::user()->id)->first();
             return $this->successResponse($user);
         } catch (Exception $err) {
             return $this->errorResponse('something error', 500, $err);

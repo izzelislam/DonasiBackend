@@ -22,7 +22,7 @@ class DonorController extends Controller
             $team_id = Auth::user()->team_id;
 
             if (isset($team_id)){
-                $data = Donor::where('team_id', $team_id)->get();
+                $data = Donor::where('team_id', $team_id)->orderBy('created_at','desc')->paginate(20);
                 return $this->successResponse($data);
             }
 
@@ -181,7 +181,7 @@ class DonorController extends Controller
     {
         QrCode::size(500)
                 ->errorCorrection('H')
-                ->format('png')
+                ->format('svg')
                 ->style('round')
                 ->generate($param, public_path('/qr/'.$param.'.png'));
 

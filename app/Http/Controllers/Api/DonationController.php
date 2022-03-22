@@ -18,7 +18,7 @@ class DonationController extends Controller
     public function index()
     {
         try {
-            $data = Donation::with('donor')->month()->year()->team()->range()->startDate()->endDate()->get();
+            $data = Donation::with('donor')->month()->year()->team()->range()->startDate()->endDate()->orderBy('created_at', 'desc')->paginate(20);
             return $this->successResponse($data);
         } catch (Exception $err) {
             return $this->errorResponse('something error', 500, $err);

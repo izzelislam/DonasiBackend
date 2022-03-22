@@ -14,7 +14,7 @@ class FinancialController extends Controller
      */
     public function index()
     {
-        $data['transactions'] = Finance::type()->range()->month()->year()->get();
+        $data['transactions'] = Finance::type()->range()->month()->year()->orderBy('created_at', 'desc')->get();
 
         // get distinct years
         $data['years'] = Finance::type()->selectRaw('YEAR(created_at) as year')->distinct()->get();

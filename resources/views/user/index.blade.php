@@ -12,7 +12,7 @@
   </x-slot>
 
   <x-card 
-    title="Data Team" 
+    title="Data User" 
     :buttons="[
       'create'      => ['name' => 'create', 'url' => 'users.create'],    
     ]" 

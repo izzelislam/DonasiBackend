@@ -23,7 +23,7 @@ class DonorController extends Controller
      */
     public function index()
     {
-        $data['donors'] = Donor::with('regency')->forRegency()->forDistrict()->forTeam()->forProvince()->get();
+        $data['donors'] = Donor::with('regency')->forRegency()->forDistrict()->forTeam()->forProvince()->orderBy('created_at', 'desc')->get();
         $data['regencies'] = Regency::all();
         $data['provinces'] = Province::all();
         $data['districts'] = District::all();
@@ -166,7 +166,7 @@ class DonorController extends Controller
     {
         QrCode::size(500)
                 ->errorCorrection('H')
-                ->format('png')
+                ->format('svg')
                 ->style('round')
                 ->generate($param, public_path('/qr/'.$param.'.png'));
 

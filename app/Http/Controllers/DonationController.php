@@ -19,7 +19,7 @@ class DonationController extends Controller
      */
     public function index()
     {
-        $data['donations'] = Donation::with('donor.regency')->month()->year()->team()->range()->startDate()->endDate()->get();
+        $data['donations'] = Donation::with('donor.regency')->month()->year()->team()->range()->startDate()->endDate()->orderBy('created_at', 'desc')->get();
         $data['teams'] = Team::all();
         $data['years'] = Donation::selectRaw('YEAR(created_at) as year')->groupBy('year')->get();
 

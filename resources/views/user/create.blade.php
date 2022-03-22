@@ -8,7 +8,7 @@
     />
   </x-slot>
 
-  <x-card title="Tambah data fundriser">
+  <x-card title="Tambah data user">
     <form class="col-8" method="POST" action="{{$action}}">
       @csrf
       @isset($model)

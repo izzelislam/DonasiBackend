@@ -13,7 +13,7 @@ class ContentController extends Controller
 
     public function index()
     {
-        $data = Content::all();
+        $data = Content::orderBy('created_at','desc')->paginate(5);
         return $this->successResponse($data);
     }
 
