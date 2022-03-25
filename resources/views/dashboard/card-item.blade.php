@@ -4,6 +4,8 @@
     $regencies = DB::table('donors')->select('regency_id')->distinct()->count();
     // user where role fundriser
     $fundrisers = DB::table('users')->where('role', 'fundriser')->count();
+
+    $content = Db::table('contents')->count();
 @endphp
 
 <div class="row">
@@ -78,7 +80,7 @@
             <div class="numbers">
               <p class="text-sm mb-0 text-uppercase font-weight-bold">INFORMASI</p>
               <h5 class="font-weight-bolder">
-                $103,430
+                {{ $content }}
               </h5>
             </div>
           </div>

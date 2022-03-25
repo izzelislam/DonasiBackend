@@ -36,7 +36,7 @@ class ContentController extends Controller
             $keyword = request('q');
 
             if (isset($keyword)){
-                $data = Content::where('title', 'LIKE', '%'.$keyword.'%')->orderBy('created_at','desc')->paginate(5);
+                $data = Content::where('title', 'LIKE', '%'.$keyword.'%')->orderBy('created_at','desc')->get();
                 return $this->successResponse($data);
             }else{
                 return $this->errorResponse('Keyword not found', 404);
