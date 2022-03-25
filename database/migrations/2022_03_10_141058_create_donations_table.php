@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('donations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('donor_id')->constrained();
+            $table->foreignId('donor_id');
             $table->string('receipt_uid');
             $table->string('recipient');
             $table->string('type');

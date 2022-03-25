@@ -168,9 +168,9 @@ class DonorController extends Controller
                 ->errorCorrection('H')
                 ->format('svg')
                 ->style('round')
-                ->generate($param, public_path('/qr/'.$param.'.png'));
+                ->generate($param, public_path('/qr/'.$param.'.svg'));
 
-        return 'qr/'.$param.'.png';
+        return 'qr/'.$param.'.svg';
     }
 
     public function printQr()

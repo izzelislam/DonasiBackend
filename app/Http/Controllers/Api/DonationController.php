@@ -45,7 +45,7 @@ class DonationController extends Controller
             }
 
             $request['receipt_uid'] = 'INV-'.uniqid().date('dmY');
-            $request['recipient'] = Auth::user()->id;
+            $request['recipient'] = Auth::user()->name;
             $request['donor_id']     = Donor::where('uuid', $request->uuid)->first()->id;
     
             $donation = Donation::create($request->all());
@@ -78,7 +78,7 @@ class DonationController extends Controller
                 return $this->errorResponse($validator->errors(), 422);
             }
 
-            $request['recipient'] = Auth::user()->id;
+            $request['recipient'] = Auth::user()->name;
             $request['donor_id']     = Donor::where('uuid', $request->uuid)->first()->id;
 
             $donation = Donation::findOrFail($request->id);

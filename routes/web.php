@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ContentController;
 use App\Http\Controllers\DonationController;
 use App\Http\Controllers\DonorController;
 use App\Http\Controllers\FinancialController;
@@ -42,6 +43,8 @@ Route::middleware('auth')->group(function(){
     Route::get('/donations/recipt/{id}', [DonationController::class, 'receipt'])->name('donations.receipt');
     Route::get('/donations/print/receipt', [DonationController::class, 'printReceipt'])->name('donations.print.receipt');
     
+    Route::resource('/contents', ContentController::class);
+
     Route::resource('/financials', FinancialController::class);
     Route::resource('/statistic', StatisticController::class)->only(['index']);
     Route::resource('/teams', TeamController::class);

@@ -243,6 +243,38 @@
         </div>
       </li>
 
+      {{-- fundriser --}}
+      <li class="nav-item">
+        <a data-bs-toggle="collapse" href="#content" class="nav-link 
+        @if(Request::is('contents*'))
+          active
+        @endif
+        " aria-controls="fundriser" role="button" aria-expanded="{{ Request::is('contents*') ? 'true' : 'false' }}">
+          <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+            <i class="ni ni-box-2 text-info text-sm opacity-10"></i>
+          </div>
+          <span class="nav-link-text ms-1">Content</span>
+        </a>
+        <div class="collapse 
+        @if(Request::is('contents*'))
+          show
+        @endif
+        " id="content">
+          <ul class="nav ms-4">
+            <li class="nav-item ">
+              <a class="nav-link " href="{{ route('contents.index') }}">
+                <span class="sidenav-normal"> list content </span>
+              </a>
+            </li>
+            <li class="nav-item ">
+              <a class="nav-link " href="{{ route('contents.create') }}">
+                <span class="sidenav-normal"> tambah content </span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </li>
+
       
       {{-- other --}}
       <li class="nav-item">

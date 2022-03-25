@@ -29,16 +29,10 @@ class DonorFactory extends Factory
         $regency_ids  = Regency::all()->pluck('id')->toArray();
         $district_ids = District::all()->pluck('id')->toArray();
         $qr= [
-            'qr/DNR-622a1c3134bf9.png',
-            'qr/DNR-622a114ed7594.png',
-            'qr/DNR-622a14231bdb9.png',
-            'qr/DNR-622b183c71130.png',
-            'qr/DNR-622cd1271bdcb.png',
-            'qr/DNR-622d65b344d95.png',
-            'qr/DNR-6229ac35d4cfb.png',
-            'qr/DNR-6229d1ad6a4a0.png',
-            'qr/DNR-6229d1868a1c3.png',
-            'qr/DNR-6229d16536e1f.png',
+            'qr/DNR-623d1b854dbb5.svg',
+            'qr/DNR-623d1ba4dd202.svg',
+            'qr/DNR-623d1bdcaf9c4.svg',
+            'qr/DNR-623d1c2e9711b.svg',
         ];
 
         $faker = \Faker\Factory::create('id_ID');

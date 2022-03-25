@@ -37,18 +37,21 @@ class DonorController extends Controller
         try {
             $donor_uuid = request('donor_uuid');
 
-            if (isset($donor_uuid)){
-                $data = Donor::where('uuid', $donor_uuid)
+            $check = Auth::user()->team_id;
+
+            if (isset($check)){
+                $data = Donor::where('team_id', $check)->where('uuid', $donor_uuid)
                         ->with(['team', 'province', 'regency','district', 'donations' => function($query){
                             $query->year();
                         }])
                         ->withSum('donations','amount')
                         ->first();
-
-                return $this->successResponse($data);
-            }else{
-                return $this->errorResponse('Donor UUID not found', 404);
+                if (isset($data)){
+                    return $this->successResponse($data);
+                }
+                return $this->errorResponse('Donatur Tidak ditemukan', 404);
             }
+
         } catch (Exception $err) {
             return $this->errorResponse('something error', 500, $err);
         }
@@ -170,7 +173,7 @@ class DonorController extends Controller
 
                 return $this->successResponse($data);
             }else{
-                return $this->errorResponse('Keyword not found', 404);
+                return $this->errorResponse('keyword tidak ditemukan', 404);
             }
         } catch (\Throwable $th) {
             return $this->errorResponse('something error', 500, $th);
@@ -183,8 +186,8 @@ class DonorController extends Controller
                 ->errorCorrection('H')
                 ->format('svg')
                 ->style('round')
-                ->generate($param, public_path('/qr/'.$param.'.png'));
+                ->generate($param, public_path('/qr/'.$param.'.svg'));
 
-        return 'qr/'.$param.'.png';
+        return 'qr/'.$param.'.svg';
     }
 }

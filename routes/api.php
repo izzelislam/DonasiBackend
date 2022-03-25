@@ -51,6 +51,7 @@ Route::middleware('auth:sanctum')->group( function() {
     Route::prefix('/contents')->group(function(){
         Route::get('/', [ContentController::class, 'index']);
         Route::get('/show', [ContentController::class, 'show']);
+        Route::get('/search', [ContentController::class, 'search']);
     });
 
     Route::prefix('/locales')->group(function(){
