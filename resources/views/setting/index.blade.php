@@ -21,7 +21,7 @@
           @csrf
           @isset($setting->image)
             <div>
-              <img src="{{ Storage::url($setting->image) }}" style="width: 250px;" alt="">
+              <img src="{{ asset($setting->image) }}" style="width: 250px;" alt="">
             </div>
           @endisset
 

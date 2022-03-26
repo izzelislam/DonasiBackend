@@ -27,6 +27,7 @@ Route::middleware('auth:sanctum')->group( function() {
 
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/me', [AuthController::class, 'me']);
+    Route::post('/update-profile', [AuthController::class, 'update']);
 
     Route::get('/settings', [AuthController::class, 'settings']);
 
@@ -41,6 +42,7 @@ Route::middleware('auth:sanctum')->group( function() {
 
     Route::prefix('/donations')->group(function() {
         Route::get('/', [DonationController::class, 'index']);
+        Route::get('/show', [DonationController::class, 'show']);
         Route::post('/store', [DonationController::class, 'store']);
         Route::put('/update', [DonationController::class, 'update']);
         Route::delete('/delete', [DonationController::class, 'destroy']);

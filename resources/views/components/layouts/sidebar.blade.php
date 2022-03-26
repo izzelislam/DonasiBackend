@@ -7,7 +7,7 @@
     {{-- <a class="navbar-brand m-0" href="{{ route('dashboard') }}">
     </a> --}}
     <div class="px-5 pt-2">
-      <img src="{{ Storage::url($setting->image ?? '') }}"  style="width: 85px;" alt="main_logo">
+      <img src="{{ asset($setting->image ?? '') }}"  style="width: 85px;" alt="main_logo">
     </div>
   </div>
   

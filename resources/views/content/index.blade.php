@@ -35,7 +35,7 @@
             <td>{{ $index + 1 }}</td>
             <td>{{ $item->title }}</td>
             <td>
-              <img src="{{ Storage::url($item->image) }}" alt="" style="width: 100px; height:100px;">
+              <img src="{{ asset($item->image) }}" alt="" style="width: 100px; height:100px;">
             </td>
             <td>{{ $item->created_at->format('d/m/y H:i:s') }}</td>
             <td>

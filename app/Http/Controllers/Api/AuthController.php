@@ -68,6 +68,57 @@ class AuthController extends Controller
         }
     }
 
+    public function update(Request $request)
+    {
+        try {
+            $validator = Validator::make(request()->all(), [
+                'name' => 'required',
+                'phone_number' => 'required',
+                'email' => 'required|email',
+                'profile_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'password' => 'min:4|max:20',
+            ],[
+                'name.required' => 'Nama wajib di isi',
+                'phone_number.required' => 'Nomor telepon wajib di isi',
+                'email.required' => 'Email wajib di isi',
+                'email.email' => 'Email tidak valid',
+                'profile_image.image' => 'Format gambar tidak valid',
+                'profile_image.mimes' => 'Format gambar tidak valid',
+                'profile_image.max' => 'Ukuran gambar terlalu besar',
+                'password.min' => 'Password minimal 4 karakter',
+                'password.max' => 'Password maksimal 20 karakter',
+            ]);
+                
+           
+
+            if ($validator->fails()) {
+                return $this->errorResponse($validator->errors(), 422);
+            }
+
+            $user = User::find(Auth::user()->id);
+
+            if ($request->file('profile_image')) {
+                $this->deleteFile($user->image);
+                $image = $request->file('profile_image');
+                $request['image'] = $this->uploadFile($image);
+            }else{
+                $request['image'] = $user->profile_image;
+            }
+
+            if ($request->password){
+                $request['password'] = bcrypt($request->password);
+            }else{
+                $request['password'] = $user->password;
+            }
+
+            $user->update($request->all());
+
+            return $this->successResponse($user);
+        } catch (Exception $err) {
+            return $this->errorResponse('something error', 500, $err);
+        }
+    }
+
 
     public function logout()
     {
@@ -88,5 +139,19 @@ class AuthController extends Controller
         } catch (Exception $th) {
             return $this->errorResponse('something error', 500, $th);
         }
+    }
+
+    public function deleteFile($name)
+    {
+        if (file_exists($name)){
+            unlink($name);
+        }
+    }
+
+    public function uploadFile($file)
+    {
+        $newName = uniqid().'.'.$file->getClientOriginalExtension();
+        $file->move('images/profile/', $newName);
+        return 'images/profile/'.$newName;
     }
 }

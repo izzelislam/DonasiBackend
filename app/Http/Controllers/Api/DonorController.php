@@ -68,12 +68,12 @@ class DonorController extends Controller
                 'phone_number'=> 'required',
                 'address'     => 'required',
             ], [
-                'province_id.required' => 'Province ID is required',
-                'regency_id.required'  => 'Regency ID is required',
-                'district_id.required' => 'District ID is required',
-                'name.required'        => 'Name is required',
-                'phone_number.required'=> 'Phone Number is required',
-                'address.required'     => 'Address is required',
+                'province_id.required' => 'Provinsi wajib diisi',
+                'regency_id.required'  => 'kabupaten wajib diisi',
+                'district_id.required' => 'kecamaatan wajib diisi',
+                'name.required'        => 'nama wajib diisi',
+                'phone_number.required'=> 'nomor telepon wajib diisi',
+                'address.required'     => 'alamat wajib diisi',
             ]);
     
             if ($validator->fails()) {
@@ -103,7 +103,6 @@ class DonorController extends Controller
     {
         try {
             $validator = Validator::make($request->all(),[
-                'id'          => 'required|exists:donors,id',
                 'province_id' => 'required',
                 'regency_id'  => 'required',
                 'district_id' => 'required',
@@ -111,21 +110,19 @@ class DonorController extends Controller
                 'phone_number'=> 'required',
                 'address'     => 'required',
             ], [
-                'id.required'          => 'Donor ID is required',
-                'id.exists'            => 'Donor ID not found',
-                'province_id.required' => 'Province ID is required',
-                'regency_id.required'  => 'Regency ID is required',
-                'district_id.required' => 'District ID is required',
-                'name.required'        => 'Name is required',
-                'phone_number.required'=> 'Phone Number is required',
-                'address.required'     => 'Address is required',
+                'province_id.required' => 'Provinsi wajib diisi',
+                'regency_id.required'  => 'kabupaten wajib diisi',
+                'district_id.required' => 'kecamaatan wajib diisi',
+                'name.required'        => 'nama wajib diisi',
+                'phone_number.required'=> 'nomor telepon wajib diisi',
+                'address.required'     => 'alamat wajib diisi',
             ]);
     
             if ($validator->fails()) {
                 return $this->errorResponse($validator->errors()->first(), 422);
             }
 
-            $donor = Donor::find($request['id'])->update($request->all());
+            $donor = Donor::find(request()->id)->update($request->all());
             
             return $this->successResponse($donor, 'Donor has been updated');
 

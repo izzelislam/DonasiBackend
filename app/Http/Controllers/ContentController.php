@@ -52,7 +52,7 @@ class ContentController extends Controller
         ]);
 
         $image = $request->file('img');
-        $request['image'] =  $image->store('images/content', 'public');
+        $request['image'] =  $this->uploadFile($image);
 
         Content::create($request->all());
 
@@ -111,13 +111,9 @@ class ContentController extends Controller
         if ($request->hasFile('img')) {
             $image = $request->file('img');
             
-            if (Storage::disk('public')->exists($content->image)) {
-                Storage::disk('public')->delete($content->image);
-            }else{
-                dd('kaga ada', $content->image);
-            }
+            $this->deleteFile($content->image);
 
-            $request['image'] =  $image->store('images/content', 'public');
+            $request['image'] =  $this->uploadFile($image);
             
             $content->update($request->all());
         } else {
@@ -137,12 +133,24 @@ class ContentController extends Controller
     {
         $content = Content::find($id);
 
-        if (Storage::exists('images/content/' . $content->image)) {
-            Storage::delete('images/content/' . $content->image);
-        }
+        $this->deleteFile($content->image);
 
         $content->delete();
 
         return redirect()->route('contents.index')->with('success', 'Content deleted successfully');
+    }
+
+    public function deleteFile($name)
+    {
+        if (file_exists($name)){
+            unlink($name);
+        }
+    }
+
+    public function uploadFile($file)
+    {
+        $newName = uniqid().'.'.$file->getClientOriginalExtension();
+        $file->move('images/profile/', $newName);
+        return 'images/profile/'.$newName;
     }
 }

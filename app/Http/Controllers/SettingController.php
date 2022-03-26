@@ -22,12 +22,11 @@ class SettingController extends Controller
             // check existing image
             if (isset($setting->image)) {
                 // delete existing image
-                if (Storage::disk('public')->exists($setting->image)) {
-                    Storage::disk('public')->delete($setting->image);
-                }
-                $request['image'] = $request->file('photo')->store('images/setting', 'public');
+                $this->deleteFile($setting->image);
+
+                $request['image'] = $this->uploadFile($request->file('photo'));
             }else{
-                $request['image'] = $request->file('photo')->store('images/setting', 'public');
+                $request['image'] = $this->uploadFile($request->file('photo'));
             }
         }else{
             $request['image'] = $setting->image;
@@ -43,5 +42,19 @@ class SettingController extends Controller
         
         return redirect()->route('settings.index')->with('success', 'Berhasil menyimpan pengaturan');
 
+    }
+
+    public function deleteFile($name)
+    {
+        if (file_exists($name)){
+            unlink($name);
+        }
+    }
+
+    public function uploadFile($file)
+    {
+        $newName = uniqid().'.'.$file->getClientOriginalExtension();
+        $file->move('images/setting/', $newName);
+        return 'images/setting/'.$newName;
     }
 }

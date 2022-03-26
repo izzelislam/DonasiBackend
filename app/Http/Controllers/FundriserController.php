@@ -53,7 +53,7 @@ class FundriserController extends Controller
 
         if ($request->file('photo')) {
             $image = $request->file('photo');
-            $request['image'] = $image->store('images/profile', 'public');
+            $request['image'] = $this->uploadFile($image);
         }
         
         $request['role'] = 'fundriser';
@@ -109,15 +109,10 @@ class FundriserController extends Controller
 
         if ($request->hasFile('photo')) {
 
-            if (Storage::disk('public')->exists($fundriser->image)) {
-                Storage::disk('public')->delete($fundriser->image);
-            }else{
-                dd('kaga ada', $fundriser->image);
-            }
+            $this->deleteFile($fundriser->image);
 
             $image = $request->file('photo');
-            $stored = $image->store('images/profile', 'public');
-            $request['image'] = $stored;
+            $request['image'] = $this->uploadFile($image);
         }
 
         if ($request->password) {
@@ -142,9 +137,7 @@ class FundriserController extends Controller
     public function destroy($id)
     {
         $fundriser = User::find($id);
-        if (Storage::exists('images/profile/' . $fundriser->image)) {
-            Storage::delete('images/profile/' . $fundriser->image);
-        }
+        $this->deleteImage($fundriser->image);
         $fundriser->delete();
         return redirect()->route('fundrisers.index')->with('success', 'Fundriser deleted successfully');
     }
@@ -164,6 +157,20 @@ class FundriserController extends Controller
         $fundriser->status = $fundriser->status == 'active' ? 'inactive' : 'active';
         $fundriser->save();
         return redirect()->route('fundrisers.index')->with('success', 'Status berhasil diupdate');
+    }
+
+    public function deleteFile($name)
+    {
+        if (file_exists($name)){
+            unlink($name);
+        }
+    }
+
+    public function uploadFile($file)
+    {
+        $newName = uniqid().'.'.$file->getClientOriginalExtension();
+        $file->move('images/profile/', $newName);
+        return 'images/profile/'.$newName;
     }
     
 }

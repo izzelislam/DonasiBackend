@@ -60,7 +60,7 @@ class User extends Authenticatable
     public function getImageUrlAttribute()
     {
         if($this->image){
-            return url('storage/'.$this->image);
+            return url($this->image);
         }else{
             return Storage::url('images/profile/default.png');
         }

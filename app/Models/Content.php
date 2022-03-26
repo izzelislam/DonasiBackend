@@ -21,7 +21,7 @@ class Content extends Model
 
     public function getImageLinkAttribute() {
         if ($this->image) {
-            return url('storage/' . $this->image);
+            return url($this->image);
         } else {
             return '-';
         }

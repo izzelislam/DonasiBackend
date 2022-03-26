@@ -23,7 +23,7 @@ class Setting extends Model
     public function getImageUrlAttribute()
     {
         if($this->image){
-            return url('storage/'.$this->image);
+            return url($this->image);
         }else{
             return '-';
         }

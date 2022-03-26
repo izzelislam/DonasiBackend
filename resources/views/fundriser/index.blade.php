@@ -38,7 +38,7 @@
             <td>{{ $index + 1 }}</td>
             <td>{{ $item->name }}</td>
             <td>
-              <img src="{{ Storage::url($item->image) }}" alt="" style="width: 100px; height:100px;">
+              <img src="{{ asset($item->image) }}" alt="" style="width: 100px; height:100px;">
             </td>
             <td>{{ $item->email }}</td>
             <td>{{ $item->phone_number }}</td>

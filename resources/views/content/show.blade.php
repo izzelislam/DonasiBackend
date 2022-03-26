@@ -12,7 +12,7 @@
   <x-card title="Detail Content">
     <div class="row">
       <div class="col-6">
-        <img src="{{ Storage::url($model->image) }}" alt="" style="width: 100%;">
+        <img src="{{ asset($model->image) }}" alt="" style="width: 100%;">
 
         <div>
           <h4>{{ $model->title }}</h4>

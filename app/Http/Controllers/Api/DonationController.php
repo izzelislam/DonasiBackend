@@ -25,6 +25,28 @@ class DonationController extends Controller
         }
     }
 
+    public function show()
+    {
+        try {
+            
+            $cek = Donation::with('donor')->where('id', request('id'))->first();
+            
+
+            if (empty($cek)) {
+                return $this->errorResponse('kode tidak valid', 404);
+            }
+
+            if($cek->donor->team_id != Auth::user()->team_id){
+                return $this->errorResponse('kode tidak valid', 404);
+            }
+
+            return $this->successResponse($cek);
+
+        } catch (Exception $th) {
+            return $this->errorResponse('something error', 500, $th);
+        }
+    }
+
     public function store(Request $request)
     {
         try {
@@ -33,10 +55,10 @@ class DonationController extends Controller
                 'amount'   => 'required',
                 'type'   => 'required',
             ],[
-                'uuid.required' => 'uuid is required',
-                'uuid.exists' => 'uuid not found',
-                'amount.required'   => 'amount is required',
-                'type.required'   => 'type is required',
+                'uuid.required' => 'uuid waji di isi',
+                'uuid.exists' => 'uuid tidak terdaftar',
+                'amount.required'   => 'amount wajib di isi',
+                'type.required'   => 'type wajib di isi',
             ]);
 
             
@@ -60,17 +82,14 @@ class DonationController extends Controller
     {
         try {
             $validator = Validator::make($request->all(),[
-                'id' => 'required|exists:donations,id',
                 'uuid' => 'required|exists:donors,uuid',
                 'amount'   => 'required',
                 'type'   => 'required',
             ],[
-                'id.required' => 'id is required',
-                'id.exists' => 'id not found',
-                'uuid.required' => 'uuid is required',
-                'uuid.exists' => 'uuid not found',
-                'amount.required'   => 'amount is required',
-                'type.required'   => 'type is required',
+                'uuid.required' => 'uuid waji di isi',
+                'uuid.exists' => 'uuid tidak terdaftar',
+                'amount.required'   => 'amount wajib di isi',
+                'type.required'   => 'type wajib di isi',
             ]);
 
 
@@ -81,7 +100,7 @@ class DonationController extends Controller
             $request['recipient'] = Auth::user()->name;
             $request['donor_id']     = Donor::where('uuid', $request->uuid)->first()->id;
 
-            $donation = Donation::findOrFail($request->id);
+            $donation = Donation::findOrFail(request()->id);
             $donation->update($request->all());
             return $this->successResponse($donation);
 
