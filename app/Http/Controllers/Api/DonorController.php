@@ -76,8 +76,13 @@ class DonorController extends Controller
                 'address.required'     => 'alamat wajib diisi',
             ]);
     
+            
             if ($validator->fails()) {
-                return $this->errorResponse($validator->errors()->first(), 422);
+                return $this->errorResponse($validator->errors(), 422);
+            }
+
+            if (($request->lat || $request->lng) == null){
+                return $this->errorResponse('latitude dan longitude wajib diisi', 422);
             }
     
             $request['team_id'] = Auth::user()->team_id;
@@ -119,7 +124,7 @@ class DonorController extends Controller
             ]);
     
             if ($validator->fails()) {
-                return $this->errorResponse($validator->errors()->first(), 422);
+                return $this->errorResponse($validator->errors(), 422);
             }
 
             $donor = Donor::find(request()->id)->update($request->all());
@@ -165,10 +170,11 @@ class DonorController extends Controller
                         ->orWhere('phone_number', 'like', '%' . $q . '%')
                         ->orWhere('address', 'like', '%' . $q . '%')
                         ->orWhere('uuid', 'like', '%' . $q . '%')
-                        ->where('team_id', Auth::user()->team_id)
                         ->get();
 
-                return $this->successResponse($data);
+                $filtered_data = $data->where('team_id', Auth::user()->team_id);
+
+                return $this->successResponse($filtered_data);
             }else{
                 return $this->errorResponse('keyword tidak ditemukan', 404);
             }

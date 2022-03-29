@@ -19,7 +19,7 @@
       <table width="100%">
         <tr>
           <td>
-            <img src="{{ Storage::url($setting->image ?? '') }}" alt="" style="width: 200px">
+            <img src="{{ asset($setting->image ?? '')}}" alt="" style="width: 200px">
           </td>
           <td class="text-center">
             <h3>{{ $setting->name ?? '' }}</h3>

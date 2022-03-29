@@ -102,7 +102,7 @@ class AuthController extends Controller
                 $image = $request->file('profile_image');
                 $request['image'] = $this->uploadFile($image);
             }else{
-                $request['image'] = $user->profile_image;
+                $request['image'] = $user->image;
             }
 
             if ($request->password){

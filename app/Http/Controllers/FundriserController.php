@@ -98,23 +98,30 @@ class FundriserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'teams_id' => 'required',
-            'name' => 'required',
-            'phone_number' => 'required',
-            'email' => 'required|email|unique:users,email,' . $id,
-        ]);
+        // $request->validate([
+        //     'teams_id' => 'required',
+        //     'name' => 'required',
+        //     'phone_number' => 'required',
+        //     'email' => 'required'
+        // ],[
+        //     'email' => 'email wajib di isi',
+        //     'name' => 'Nama wajib di isi',
+        //     'phone_number' => 'Nomo telepon wajib di isi',
+        //     'teams_id' => 'Tim wajib di isi',
 
+        // ]);
+
+        
         $fundriser = User::find($id);
-
+        
         if ($request->hasFile('photo')) {
-
+            
             $this->deleteFile($fundriser->image);
-
+            
             $image = $request->file('photo');
             $request['image'] = $this->uploadFile($image);
         }
-
+        
         if ($request->password) {
             $request['password'] = bcrypt($request->password);
         } else {

@@ -62,7 +62,7 @@ class User extends Authenticatable
         if($this->image){
             return url($this->image);
         }else{
-            return Storage::url('images/profile/default.png');
+            return url('images/profile/default.png');
         }
     }
 }
