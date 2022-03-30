@@ -87,7 +87,6 @@
     :buttons="[
       'create'      => ['name' => 'create', 'url' => 'donors.create'],
       'export-data' => ['name' => 'export-data', 'url' => '/donors/export/excel?'.request()->getQueryString()],
-      'export-qr'   => ['name' => 'export-qr', 'url' => 'donors.qr'],      
     ]" 
   >
     

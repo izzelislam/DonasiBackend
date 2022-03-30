@@ -176,7 +176,7 @@ class DonorController extends Controller
     public function printQr()
     {
         $pdf = PDF::loadView('donor.pdf');
-        return $pdf->stream('qr_donatur.pdf');
+        return $pdf->stream('qr_donatur_'.request('start').'_'.request('end').'.pdf');
     }
 
     public function searchPerson(Request $request)

@@ -1,5 +1,5 @@
 @php
-   $data =  \App\Models\Donor::all();
+   $data =  \App\Models\Donor::whereBetween('id', [request('start') - 1, request('end') + 1])->get();
    $donors = $data->chunk(3);
 @endphp
 

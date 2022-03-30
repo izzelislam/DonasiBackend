@@ -1,3 +1,8 @@
+@php
+    $donor = \App\Models\Donor::all();
+    $donor_chunk = $donor->chunk(100)->toArray();
+@endphp
+
 <x-layouts.app>
   <x-slot:addonstyle>
     <x-table-style/>
@@ -57,6 +62,22 @@
             <button class="btn btn-primary">Simpan Perubahan</button>
           </div>
         </form>
+
+        <hr>
+        <h6>Print Qrcode</h5>
+        <div class="mt-4">
+          <div class="row">
+            <div class="col">
+              @foreach ($donor_chunk as $item)
+                <a href="/donors/export/qr?start={{ reset($item)['id'] }}&end={{ end($item)['id'] }}" class="btn btn-primary"> 
+                  <i class="fa fa-print"></i>
+                  <span class="ml-5"> {{ reset($item)['id'] }}  sampai {{ end($item)['id'] }} Qr</span>
+                </a>
+              @endforeach
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
 
