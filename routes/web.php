@@ -28,6 +28,10 @@ Route::get('/', [AuthController::class, 'index'])->name('login');
 Route::post('/login', [AuthController::class, 'process'])->name('auth.store');
 Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout'); 
 
+Route::get('/cek-php', function(){
+    return phpinfo();
+});
+
 Route::middleware('auth')->group(function(){
     Route::get('/dashboard', function () {
         return view('dashboard.index');

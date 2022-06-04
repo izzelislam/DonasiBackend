@@ -8,6 +8,7 @@
 </title>
 <!--     Fonts and icons     -->
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+
 <!-- Nucleo Icons -->
 <link href="{{ asset('argon/assets/css/nucleo-icons.css') }}" rel="stylesheet" />
 <link href="{{ asset('argon/assets/css/nucleo-svg.css') }}" rel="stylesheet" />
@@ -16,3 +17,9 @@
 <link href="{{ asset('argon/assets/css/nucleo-svg.css') }}" rel="stylesheet" />
 <!-- CSS Files -->
 <link id="pagestyle" href="{{ asset('argon/assets/css/argon-dashboard.css?v=2.0.0') }}" rel="stylesheet" />
+<script defer src="https://unpkg.com/alpinejs@3.10.2/dist/cdn.min.js"></script>
+
+<style>
+  [x-cloak] { display: none !important; }
+</style>
+@livewireStyles

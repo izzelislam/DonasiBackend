@@ -18,6 +18,8 @@ in all copies or substantial portions of the Software.
 <head>
   <x-layouts.header/>
   {{ isset($addonstyle) ? $addonstyle : '' }}
+  @livewireStyles
+  @powerGridStyles
 </head>
 <body class="g-sidenav-show   bg-gray-100">
   <div class="min-height-300 bg-primary position-absolute w-100"></div>
@@ -56,6 +58,9 @@ in all copies or substantial portions of the Software.
     </main>
   <x-layouts.theme/>
   <x-layouts.script/>
+  @livewireScripts
   {{ isset($addonscript) ? $addonscript : '' }}
+  @livewireScripts
+  @powerGridScripts
 </body>
 </html>

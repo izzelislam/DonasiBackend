@@ -18,7 +18,7 @@
     ]" 
   >
 
-  <div class="table-responsive p-0">
+  {{-- <div class="table-responsive p-0">
     <table id="myTable" class="table" style="width:100%">
       <thead>
         <tr>
@@ -54,8 +54,11 @@
         @endforeach
       </tbody>
     </table>
-  </div>
-    
+  </div> --}}
+  
+  {{-- <livewire:user-table/> --}}
+  <livewire:user-table/>
+
   </x-card>
   
   <x-slot:addonscript>
