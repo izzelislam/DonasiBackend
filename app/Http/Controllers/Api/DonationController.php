@@ -139,7 +139,11 @@ class DonationController extends Controller
     public function getTotalDonation()
     {
         try {
-            $data = Donation::with('donor')->month()->year()->sum('amount');
+            $data = Donation::with('donor')
+                ->whereHas('donor', function ($query) {
+                $query->where('team_id', Auth::user()->team_id);
+            })
+            ->month()->year()->sum('amount');
             return $this->successResponse($data);
 
         } catch (Exception $th) {
