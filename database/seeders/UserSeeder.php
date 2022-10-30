@@ -39,18 +39,18 @@ class UserSeeder extends Seeder
             'images/profile/ZG32jdSPXW1NCofMfGm0qirzZuVjTK1YnN0eM2Jg.png'
         ];
 
-        for ($i = 0; $i < 30; $i++) {
-            User::create([
-                'name' => $faker->name,
-                'email' => $faker->unique()->safeEmail,
-                'password' => bcrypt('secret'),
-                'phone_number' => $faker->phoneNumber,
-                'image' =>$faker->randomElement($image),
-                'team_id' => $faker->randomElement($team_ids),
-                'role' => 'fundriser',
-                'status' => $i % 2 == 0 ? 'active' : 'inactive',
-            ]);
-        }
+        // for ($i = 0; $i < 30; $i++) {
+        //     User::create([
+        //         'name' => $faker->name,
+        //         'email' => $faker->unique()->safeEmail,
+        //         'password' => bcrypt('secret'),
+        //         'phone_number' => $faker->phoneNumber,
+        //         'image' =>$faker->randomElement($image),
+        //         'team_id' => $faker->randomElement($team_ids),
+        //         'role' => 'fundriser',
+        //         'status' => $i % 2 == 0 ? 'active' : 'inactive',
+        //     ]);
+        // }
         
     }
 }
