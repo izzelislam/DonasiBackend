@@ -144,7 +144,7 @@ class FundriserController extends Controller
     public function destroy($id)
     {
         $fundriser = User::find($id);
-        $this->deleteImage($fundriser->image);
+        $this->deleteFile($fundriser->image);
         $fundriser->delete();
         return redirect()->route('fundrisers.index')->with('success', 'Fundriser deleted successfully');
     }
