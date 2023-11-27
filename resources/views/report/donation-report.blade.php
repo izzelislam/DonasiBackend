@@ -54,12 +54,12 @@
         @foreach ($donations as $index => $donation) 
           <tr>
             <td>{{ $index + 1 }}</td>
-            <td>{{ $donation->donor->name }}</td>
-            <td>{{ $donation->created_at->format('d/m/Y H:i:s') }}</td>
-            <td>Rp. {{ number_format($donation->amount) }}</td>
-            <td>{{ $donation->donor->regency->name }}</td>
-            <td>{{ $donation->donor->province->name }}</td>
-            <td>{{ $donation->donor->address }}</td>
+            <td>{{ $donation->donor->name ?? "" }}</td>
+            <td>{{ $donation->created_at->format('d/m/Y H:i:s') ?? "" }}</td>
+            <td>Rp. {{ number_format($donation->amount) ?? "" }}</td>
+            <td>{{ $donation->donor->regency->name ?? "" }}</td>
+            <td>{{ $donation->donor->province->name?? "" }}</td>
+            <td>{{ $donation->donor->address?? "" }}</td>
          
           </tr>
         @endforeach
