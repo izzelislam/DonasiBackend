@@ -114,9 +114,9 @@
         @foreach ($donations as $index => $item )
           <tr>
             <td>{{ $index + 1 }}</td>
-            <td>{{ $item->donor->name }}</td>
+            <td>{{ $item->donor->name ?? "" }}</td>
             <td><a href="{{ route('donations.receipt', $item->receipt_uid) }}">{{ $item->receipt_uid }}</a></td>
-            <td>{{ $item->donor->regency->name }}</td>
+            <td>{{ $item->donor->regency->name ?? "" }}</td>
             <td><b>Rp. {{ number_format($item->amount) }}</b></td>
             <td>
               <a href="{{ route('donations.show', $item->id) }}" class="btn btn-icon btn-3 btn-info" >
