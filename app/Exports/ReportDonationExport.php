@@ -77,13 +77,13 @@ class ReportDonationExport implements FromQuery, WithHeadings, WithMapping, With
     public function map($donation): array
     {
         return [
-            $donation->donor->name,
-            $donation->created_at->format('d/m/Y'),
-            $donation->amount,
-            $donation->donor->district->name,
-            $donation->donor->regency->name,
-            $donation->donor->province->name,
-            $donation->donor->address
+            $donation->donor->name ?? "",
+            $donation->created_at->format('d/m/Y' ?? ""),
+            $donation->amount ?? "",
+            $donation->donor->district->name ?? "",
+            $donation->donor->regency->name ?? "",
+            $donation->donor->province->name ?? "",
+            $donation->donor->address ?? ""
         ];
     }
 }
