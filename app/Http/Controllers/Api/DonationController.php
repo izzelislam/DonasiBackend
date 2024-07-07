@@ -29,15 +29,15 @@ class DonationController extends Controller
         }
     }
 
-    public function show()
+    public function show($id)
     {
         try {
             
-            $cek = Donation::with('donor')->where('id', request('id'))->first();
+            $cek = Donation::with('donor')->where('id', $id)->first();
             
 
             if (empty($cek)) {
-                return $this->errorResponse('kode tidak valid', 404);
+                return $this->errorResponse('donasi tidak ditemukan', 404);
             }
 
             if($cek->donor->team_id != Auth::user()->team_id){
@@ -82,7 +82,7 @@ class DonationController extends Controller
         }
     }
 
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
         try {
             $validator = Validator::make($request->all(),[
@@ -104,7 +104,7 @@ class DonationController extends Controller
             $request['recipient'] = Auth::user()->name;
             $request['donor_id']     = Donor::where('uuid', $request->uuid)->first()->id;
 
-            $donation = Donation::findOrFail(request()->id);
+            $donation = Donation::findOrFail($id);
             $donation->update($request->all());
             return $this->successResponse($donation);
 
@@ -113,10 +113,10 @@ class DonationController extends Controller
         }
     }
 
-    public function destroy() 
+    public function destroy($id) 
     {
         try {
-            $donation = Donation::findOrFail(request('id'));
+            $donation = Donation::findOrFail($id);
             $donation->delete();
 
             return $this->successResponse(null, 'success delete');

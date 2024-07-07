@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Setting;
 use App\Models\User;
 use Exception;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -67,6 +68,27 @@ class AuthController extends Controller
             return $this->errorResponse('something error', 500, $err);
         }
     }
+    
+    public function updatePassword(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'old_password' => 'required',
+            'password' => 'required|confirmed|min:4|max:20',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->errorResponse($validator->errors(), 422);
+        }
+
+        if (!Hash::check($request->old_password, Auth::user()->password)) {
+            return $this->errorResponse('Password lama tidak sesuai', 402);
+        }
+
+        $request['password'] = Hash::make($request->password);
+        $user = User::findOrFail(Auth::user()->id);
+        $user->update($request->all());
+        return $this->successResponse($user);
+    }
 
     public function update(Request $request)
     {
@@ -76,7 +98,6 @@ class AuthController extends Controller
                 'phone_number' => 'required',
                 'email' => 'required|email',
                 'profile_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-                'password' => 'min:4|max:20',
             ],[
                 'name.required' => 'Nama wajib di isi',
                 'phone_number.required' => 'Nomor telepon wajib di isi',
@@ -85,8 +106,6 @@ class AuthController extends Controller
                 'profile_image.image' => 'Format gambar tidak valid',
                 'profile_image.mimes' => 'Format gambar tidak valid',
                 'profile_image.max' => 'Ukuran gambar terlalu besar',
-                'password.min' => 'Password minimal 4 karakter',
-                'password.max' => 'Password maksimal 20 karakter',
             ]);
                 
            
@@ -96,6 +115,8 @@ class AuthController extends Controller
             }
 
             $user = User::find(Auth::user()->id);
+
+            $request["password"] = $user->password;
 
             if ($request->file('profile_image')) {
                 $this->deleteFile($user->image);

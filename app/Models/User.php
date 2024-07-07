@@ -57,6 +57,16 @@ class User extends Authenticatable
         return $this->belongsTo(Team::class)->withTrashed();
     }
 
+    public function permits()
+    {
+        return $this->hasMany(Permit::class);
+    }
+
+    public function presents()
+    {
+        return $this->hasMany(Present::class);
+    }
+
     public function getImageUrlAttribute()
     {
         if($this->image){

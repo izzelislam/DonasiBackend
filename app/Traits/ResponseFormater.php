@@ -8,7 +8,7 @@ trait ResponseFormater
     public function successResponse( $data, $message = 'success', $code = 200)
     {
         return response()->json([
-            'code' => $code,
+            'status' => true,
             'message' => $message,
             'data' => $data
         ], $code);
@@ -17,7 +17,7 @@ trait ResponseFormater
     public function errorResponse( $message, $code = 404, $data = null, )
     {
         return response()->json([
-          'code' => $code,
+          'status' => false,
           'error' => $message, 
           'data' => $data
         ], $code);

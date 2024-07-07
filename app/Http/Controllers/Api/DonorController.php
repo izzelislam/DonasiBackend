@@ -22,7 +22,7 @@ class DonorController extends Controller
             $team_id = Auth::user()->team_id;
 
             if (isset($team_id)){
-                $data = Donor::where('team_id', $team_id)->orderBy('created_at','desc')->paginate(20);
+                $data = Donor::where('team_id', $team_id)->orderBy('created_at','desc')->orderBy("created_at", "desc")->paginate(20);
                 return $this->successResponse($data);
             }
 
@@ -32,7 +32,7 @@ class DonorController extends Controller
         }
     }
 
-    public function show()
+    public function show($id)
     {
         try {
             $donor_uuid = request('donor_uuid');
@@ -40,7 +40,7 @@ class DonorController extends Controller
             $check = Auth::user()->team_id;
 
             if (isset($check)){
-                $data = Donor::where('team_id', $check)->where('uuid', $donor_uuid)
+                $data = Donor::where('team_id', $check)->where('uuid', $id)
                         ->with(['team', 'province', 'regency','district', 'donations' => function($query){
                             $query->year();
                         }])
@@ -104,7 +104,7 @@ class DonorController extends Controller
 
     }
 
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
         try {
             $validator = Validator::make($request->all(),[
@@ -127,7 +127,7 @@ class DonorController extends Controller
                 return $this->errorResponse($validator->errors(), 422);
             }
 
-            $donor = Donor::find(request()->id)->update($request->all());
+            $donor = Donor::find($id)->update($request->all());
             
             return $this->successResponse($donor, 'Donor has been updated');
 
@@ -136,13 +136,12 @@ class DonorController extends Controller
         }
     }
 
-    public function destroy()
+    public function destroy($id)
     {
         try {
-            $donor_uuid = request('donor_uuid');
 
-            if (isset($donor_uuid)){
-                $donor = Donor::where('uuid', $donor_uuid)->first();
+            if (isset($id)){
+                $donor = Donor::where('id', $id)->first();
 
                 if (empty($donor)){
                     return $this->errorResponse('Donor not found', 404);

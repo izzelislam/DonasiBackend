@@ -25,7 +25,7 @@
             active
         @endif
         " href="{{ route('dashboard') }}">
-          <div class="icon icon-shape icon-sm text-center  me-2 d-flex align-items-center justify-content-center">
+          <div class="icon icon-shape icon-sm text-center   d-flex align-items-center justify-content-center">
             <i class="ni ni-spaceship text-primary text-sm opacity-10"></i>
           </div>
           <span class="nav-link-text ms-1">Dashboard</span>
@@ -96,6 +96,34 @@
         </div>
       </li>
 
+      {{-- absensi --}}
+      <li class="nav-item">
+        <a class="nav-link 
+        @if(Request::is('presents*'))
+          active
+       @endif" 
+       href="/presents" >
+          <div class="icon icon-shape icon-sm text-center   d-flex align-items-center justify-content-center">
+            <i class="ni ni-time-alarm text-secondary text-sm opacity-10"></i>
+          </div>
+          <span class="nav-link-text ms-1">Absensi</span>
+        </a>
+      </li>
+
+      {{-- permit --}}
+      <li class="nav-item">
+        <a class="nav-link 
+        @if(Request::is('permits*'))
+          active
+       @endif" 
+       href="/permits" >
+          <div class="icon icon-shape icon-sm text-center   d-flex align-items-center justify-content-center">
+            <i class="ni ni-notification-70 text-danger text-sm opacity-10"></i>
+          </div>
+          <span class="nav-link-text ms-1">Perizinan</span>
+        </a>
+      </li>
+
       {{-- statistik --}}
       <li class="nav-item">
         <a class="nav-link 
@@ -103,7 +131,7 @@
           active
        @endif" 
        href="/statistic" >
-          <div class="icon icon-shape icon-sm text-center  me-2 d-flex align-items-center justify-content-center">
+          <div class="icon icon-shape icon-sm text-center   d-flex align-items-center justify-content-center">
             <i class="ni ni-chart-bar-32 text-primary text-sm opacity-10"></i>
           </div>
           <span class="nav-link-text ms-1">Statistik</span>
@@ -322,7 +350,7 @@
             active
         @endif
         " href="{{ route('settings.index') }}">
-          <div class="icon icon-shape icon-sm text-center  me-2 d-flex align-items-center justify-content-center">
+          <div class="icon icon-shape icon-sm text-center   d-flex align-items-center justify-content-center">
             <i class="ni ni-settings text-danger text-sm"></i>
           </div>
           <span class="nav-link-text ms-1">Setting</span>

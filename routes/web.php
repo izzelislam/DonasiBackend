@@ -6,6 +6,8 @@ use App\Http\Controllers\DonationController;
 use App\Http\Controllers\DonorController;
 use App\Http\Controllers\FinancialController;
 use App\Http\Controllers\FundriserController;
+use App\Http\Controllers\PermitController;
+use App\Http\Controllers\PresentController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\StatisticController;
@@ -48,6 +50,10 @@ Route::middleware('auth')->group(function(){
     Route::get('/donations/print/receipt', [DonationController::class, 'printReceipt'])->name('donations.print.receipt');
     
     Route::resource('/contents', ContentController::class);
+
+    Route::resource('/permits', PermitController::class);
+
+    Route::resource('/presents', PresentController::class);
 
     Route::resource('/financials', FinancialController::class);
     Route::resource('/statistic', StatisticController::class)->only(['index']);
