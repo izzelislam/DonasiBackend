@@ -50,7 +50,10 @@ system for input donation donor , present , permit and more
 ## :sparkles: Asset ##
 
 - Api Doc
-   https://documenter.getpostman.com/view/10085225/2sA3e1BAQD 
+   https://documenter.getpostman.com/view/10085225/2sA3e1BAQD
+
+- ERD
+   https://drive.google.com/file/d/13k3aEzGqJOPHfs3QwtJDBpFW7ceSpDqh/view?usp=sharing
 
 ## :rocket: Technologies ##
 
