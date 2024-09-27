@@ -74,7 +74,7 @@ class DonationController extends Controller
             $request['recipient'] = Auth::user()->name;
             $request['donor_id']     = Donor::where('uuid', $request->uuid)->first()->id;
     
-            $donation = Donation::create($request->all());
+            $donation = Donation::create($request->all())->load('donor');
             return $this->successResponse($donation);
 
         } catch (Exception $th) {
