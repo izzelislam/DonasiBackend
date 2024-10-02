@@ -36,7 +36,7 @@
         </table>
       </div>
       <div class="col-4 table-responsive">
-        <table class="table align-middle">
+        <table class="table align-middle mb-4">
           <tr>
             <td>Tipe Presensi</td>
             <td>{{ $model->type }}</td>
@@ -55,6 +55,11 @@
           </tr>
 
         </table>
+        {{--  link to map with lat long --}}
+        <div>
+          <b><small>Lihat di map :</small></b>
+          <a href="https://www.google.com/maps/search/{{ $model->lat }},{{ $model->long }}" target="_blank" class="btn btn-primary">Lihat di Maps</a>
+        </div>
       </div>
     </div>
   </x-card>
