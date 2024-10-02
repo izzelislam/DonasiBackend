@@ -41,7 +41,6 @@ class PresentController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            'user_id'       => 'required|exists:users,id',
             'type'          => 'required',
             'note'          => 'nullable|max:500',
             'lat'           => 'required',
@@ -61,6 +60,7 @@ class PresentController extends Controller
         }
 
         $data = $request->all();
+        $data['user_id'] = auth()->user()->id;
         $data['present_at'] = now();
         $res = Present::create($data);
         return $this->successResponse($res);
