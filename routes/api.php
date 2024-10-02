@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ContentController;
 use App\Http\Controllers\Api\DonationController;
 use App\Http\Controllers\Api\DonorController;
+use App\Http\Controllers\Api\ExperimenController;
 use App\Http\Controllers\Api\LocaleController;
 use App\Http\Controllers\Api\PermitController;
 use App\Http\Controllers\Api\PresentController;
@@ -24,6 +25,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [AuthController::class, 'login']);
 
+Route::get("/experiment", [ExperimenController::class, 'index']);
 
 Route::middleware('auth:sanctum')->group( function() {
 

@@ -20,11 +20,11 @@ class Donation extends Model
 
     public function scopeMonth($query)
     {
-        if (isset(request()->month)){
-            $query->whereMonth('created_at', request()->month);
-        }else{
-            $query->whereMonth('created_at', date('m'));
-        }
+        // if (isset(request()->month)){
+        //     $query->whereMonth('created_at', request()->month);
+        // }else{
+        //     $query->whereMonth('created_at', date('m'));
+        // }
     }
 
     // scope start_date
