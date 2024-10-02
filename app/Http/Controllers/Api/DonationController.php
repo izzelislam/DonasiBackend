@@ -18,8 +18,7 @@ class DonationController extends Controller
     public function index()
     {
         try {
-            // ->month()
-            $data = Donation::with('donor')->year()->team()->range()->startDate()->endDate()->orderBy('created_at', 'desc')
+            $data = Donation::with('donor')->month()->year()->team()->range()->startDate()->endDate()->orderBy('created_at', 'desc')
                     ->whereHas('donor', function($query){
                         $query->where('team_id', Auth::user()->team_id);
                     })
