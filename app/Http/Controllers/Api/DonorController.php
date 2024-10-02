@@ -22,7 +22,7 @@ class DonorController extends Controller
             $team_id = Auth::user()->team_id;
 
             if (isset($team_id)){
-                $data = Donor::where('team_id', $team_id)->orderBy('created_at','desc')->orderBy("created_at", "desc")->paginate(20);
+                $data = Donor::where('team_id', $team_id)->orderBy('created_at','desc')->withSum('donations','amount')->orderBy("created_at", "desc")->paginate(20);
                 return $this->successResponse($data);
             }
 

@@ -25,7 +25,7 @@ class Donor extends Model
         'status',
     ];
 
-    protected $appends = ['qr_url'];
+    protected $appends = ['qr_url', 'full_address'];
 
     public function scopeForRegency($query)
     {
