@@ -25,7 +25,7 @@ class Donor extends Model
         'status',
     ];
 
-    protected $appends = ['qr_url', 'full_address'];
+    protected $appends = ['qr_url'];
     // protected $appends = ['qr_url', 'full_address', 'province', 'regency', 'district'];
 
     public function scopeForRegency($query)
@@ -87,21 +87,6 @@ class Donor extends Model
     {
         return "{$this->address}, {$this->district->name}, {$this->regency->name}, {$this->province->name}";
     }
-
-    // public function getProvinceAttribute()
-    // {
-    //     return $this->province->name;
-    // }
-
-    // public function getRegencyAttribute()
-    // {
-    //     return $this->regency->name;
-    // }
-
-    // public function getDistrictAttribute()
-    // {
-    //     return $this->district->name;
-    // }
 
     
     public function donations()
