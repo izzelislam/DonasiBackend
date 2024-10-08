@@ -12,7 +12,8 @@
   <x-card title="Detail data donatur">
     <div class="row">
       <div class="col-3">
-        <img src="{{ asset($model->qr) }}" class="w-100" alt="">
+        <div id="qr"></div>
+        {{-- <img src="{{ asset($model->qr) }}" class="w-100" alt=""> --}}
       </div> 
       <div class="col-4" class="table-resposive">
         <table class="table">
@@ -50,7 +51,7 @@
         <table class="table align-middle">
           <tr>
             <td>Kode</td>
-            <td>{{ $model->uuid }}</td>
+            <td id="code">{{ $model->uuid }}</td>
           </tr>
           <tr style="width: 20px;">
             <td>Alamat</td>
@@ -72,5 +73,17 @@
       </div>
     </div>
   </x-card>
+
+  <x-slot:addonscript>
+    <script src=
+"https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js">
+    </script>
+
+    <script>
+      var code = document.getElementById("code");
+      console.log(code.innerText)
+      var qrcode = new QRCode("qr", code.innerText);
+    </script>
+  </x-slot:addonscript>
 
 </x-layouts.app>

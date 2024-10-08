@@ -68,8 +68,12 @@
         <div class="mt-4">
           <div class="row">
             <div class="col">
+              {{-- <a target="_blank" href="/donors/export/qr" class="btn btn-primary"> 
+                <i class="fa fa-print"></i>
+                <span class="ml-5">  Print Qr</span>
+              </a> --}}
               @foreach ($donor_chunk as $item)
-                <a href="/donors/export/qr?start={{ reset($item)['id'] }}&end={{ end($item)['id'] }}" class="btn btn-primary"> 
+                <a target="_blank" href="/donors/export/qr?start={{ reset($item)['id'] }}&end={{ end($item)['id'] }}" class="btn btn-primary"> 
                   <i class="fa fa-print"></i>
                   <span class="ml-5"> {{ reset($item)['id'] }}  sampai {{ end($item)['id'] }} Qr</span>
                 </a>

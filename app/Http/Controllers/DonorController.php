@@ -175,8 +175,15 @@ class DonorController extends Controller
 
     public function printQr()
     {
-        $pdf = PDF::loadView('donor.pdf');
-        return $pdf->stream('qr_donatur_'.request('start').'_'.request('end').'.pdf');
+        $donors =  \App\Models\Donor::whereBetween('id', [request('start') - 1, request('end') + 1])->get();
+        // $donors = $data->chunk(4);
+
+        return view('donor.export-code', compact('donors'));
+
+        // dd($donors);
+        // dd(request('start'), request('end'));
+        // $pdf = PDF::loadView('donor.pdf');
+        // return $pdf->stream('qr_donatur_'.request('start').'_'.request('end').'.pdf');
     }
 
     public function searchPerson(Request $request)
