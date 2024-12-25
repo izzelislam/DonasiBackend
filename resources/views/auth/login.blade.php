@@ -77,7 +77,8 @@
                   <form role="form" method="POST" action="{{ route('auth.store') }}">
                     @csrf
                     <div class="mb-3">
-                      <input type="text" name="phone_number" type="text" class="form-control form-control-lg @error('phone_number') is-invalid @enderror" placeholder="phonenumber" aria-label="Phone Number" value="{{ old('phone_number', '+380991234567') }}">
+                      {{-- <input type="text" name="phone_number" type="text" class="form-control form-control-lg @error('phone_number') is-invalid @enderror" placeholder="phonenumber" aria-label="Phone Number" value="{{ old('phone_number', '+380991234567') }}"> --}}
+                      <input type="text" name="phone_number" type="text" class="form-control form-control-lg @error('phone_number') is-invalid @enderror" placeholder="phonenumber" aria-label="Phone Number" value="{{ old('phone_number') }}">
                       @error('phone_number')
                         <span class="invalid-feedback">
                           <strong>{{ $message }}</strong>
@@ -85,7 +86,8 @@
                       @enderror
                     </div>
                     <div class="mb-3">
-                      <input type="password" name="password" class="form-control form-control-lg  @error('password') is-invalid @enderror" placeholder="Password" aria-label="Password" value="{{ old('password', 'secret') }}">
+                      {{-- <input type="password" name="password" class="form-control form-control-lg  @error('password') is-invalid @enderror" placeholder="Password" aria-label="Password" value="{{ old('password', 'secret') }}"> --}}
+                      <input type="password" name="password" class="form-control form-control-lg  @error('password') is-invalid @enderror" placeholder="Password" aria-label="Password" value="{{ old('password') }}">
                       @error('password')
                         <span class="invalid-feedback">
                           <strong>{{ $message }}</strong>
