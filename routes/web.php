@@ -41,12 +41,14 @@ Route::middleware('auth')->group(function(){
     
     Route::resource('/donors', DonorController::class);
     Route::get('/donors/export/qr', [DonorController::class, 'printQr'])->name('donors.qr');
+    Route::get('/donors/search/ajax', [DonorController::class, 'ajaxSearch'])->name('donors.search.ajax');
     Route::post('/donors/search/person', [DonorController::class, 'searchPerson'])->name('donors.search.person');
     Route::get('/donors/export/excel', [DonorController::class, 'exportExcel'])->name('donors.export.excel');
     Route::post('/donors/update/status/{id}', [DonorController::class, 'updateStatus'])->name('donors.status');
     
     Route::resource('/donations', DonationController::class);
     Route::get('/donations/recipt/{id}', [DonationController::class, 'receipt'])->name('donations.receipt');
+    Route::get('/donations/receipt/{id}', [DonationController::class, 'receipt'])->name('donations.receipt.view');
     Route::get('/donations/print/receipt', [DonationController::class, 'printReceipt'])->name('donations.print.receipt');
     
     Route::resource('/contents', ContentController::class);
@@ -69,7 +71,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/reports-donations', [ReportController::class, 'donations'])->name('reports.donations');
     Route::get('/reports-donations/export/excel', [ReportController::class, 'exportExcel'])->name('reports.donations.export.excel');
     
-    
     Route::get('/reports-financials', [ReportController::class, 'financials'])->name('reports.financials');
     Route::get('/reports-financials/export/excel', [ReportController::class, 'exportExcelFinance'])->name('reports.financials.export.excel');
+    
 });

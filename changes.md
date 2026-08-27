@@ -1,0 +1,26 @@
+
+2026-08-25
+- app/Http/Controllers/DonationController.php: menambahkan pemilihan template 1-5 dan meneruskan data lengkap ke PDF.
+- resources/views/donation/show.blade.php: mengganti tautan invoice dengan tautan pilih template tanda terima.
+- resources/views/pages/receipt.blade.php: menambahkan menu pemilihan lima template dan tautan cetak aktif.
+- resources/views/pages/receipt.blade.php: menampilkan lima tombol template secara langsung.
+- resources/views/donation/show.blade.php: menampilkan lima tombol template pada detail donasi.
+- database/migrations/2026_08_25_000000_add_receipt_template_to_settings_table.php: menambahkan kolom template tanda terima tersimpan.
+- app/Models/Setting.php: mengizinkan penyimpanan template tanda terima.
+- app/Http/Controllers/SettingController.php: memvalidasi pilihan template 1-5.
+- resources/views/setting/index.blade.php: menambahkan dropdown template tanda terima di halaman Setting.
+- resources/views/setting/index.blade.php: menambahkan lima preview visual template dan sinkronisasi dengan pilihan template.
+- resources/views/donation/show.blade.php dan resources/views/pages/receipt.blade.php: menghapus pilihan template per donasi dan memakai template aktif dari Setting.
+- resources/views/donation/pdf.blade.php: membuat lima variasi warna/layout tanda terima berbasis data donasi.
+- database tidak berubah; tidak diperlukan SQL atau migrasi.
+- resources/views/setting/index.blade.php: mengganti kartu preview dengan tombol Preview dan modal preview kwitansi berukuran mobile, termasuk pilihan template dari modal.
+- resources/views/donation/pdf.blade.php: menambahkan watermark logo besar transparan, ornamen header/footer berlapis, pemisah bergaya, dan blok tanda tangan pada kelima template.
+- resources/views/setting/index.blade.php: menambahkan watermark logo (atau monogram fallback), ornamen band header/footer, dan pemisah ornamen pada preview modal agar selaras dengan PDF.
+- resources/views/pages/receipt.blade.php: menyesuaikan tampilan halaman kwitansi dengan desain template aktif (watermark, ornamen, layout dua kolom label, dan blok tanda tangan).
+- app/Http/Controllers/DonationController.php: mengubah printReceipt ke setPaper('a4','portrait') agar tanda terima tampil vertikal 1 halaman.
+- app/Http/Controllers/DonationController.php: menambahkan printReceiptJpg() — render GD 780×1688 (smartphone portrait @2x) dengan QR dari BaconQrCode matrix, logo watermark webp, ornamen, teks TTF DejaVuSans; output image/jpeg langsung tanpa Imagick.
+- routes/web.php: menambahkan route GET /donations/print/receipt-jpg (name: donations.print.receipt.jpg).
+- resources/views/components/card.blade.php: menambahkan dukungan tombol print-jpg (btn-success, icon fa-image).
+- resources/views/pages/receipt.blade.php: menambahkan tombol Cetak JPG yang terhubung ke route donations.print.receipt.jpg.
+- resources/views/donation/pdf.blade.php: mengubah layout ke portrait dengan ornamen header/footer, watermark logo, blok jumlah donasi menonjol, detail, dan tanda tangan vertikal.
+- resources/views/setting/index.blade.php: mengubah modal preview ke ukuran smartphone penuh (max-width 390px, height 844px, body scrollable) agar menyerupai tampilan asli.

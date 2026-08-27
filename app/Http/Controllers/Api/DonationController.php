@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\BankAccount;
 use App\Http\Controllers\Controller;
 use App\Models\Donation;
 use App\Models\Donor;
@@ -32,9 +33,7 @@ class DonationController extends Controller
     public function show($id)
     {
         try {
-            
             $cek = Donation::with('donor')->where('id', $id)->first();
-            
 
             if (empty($cek)) {
                 return $this->errorResponse('donasi tidak ditemukan', 404);
@@ -55,26 +54,41 @@ class DonationController extends Controller
     {
         try {
             $validator = Validator::make($request->all(),[
-                'uuid' => 'required|exists:donors,uuid',
-                'amount'   => 'required',
+                'uuid'   => 'required|exists:donors,uuid',
+                'amount' => 'required',
                 'type'   => 'required',
             ],[
-                'uuid.required' => 'uuid waji di isi',
-                'uuid.exists' => 'uuid tidak terdaftar',
-                'amount.required'   => 'amount wajib di isi',
+                'uuid.required'   => 'uuid wajib di isi',
+                'uuid.exists'     => 'uuid tidak terdaftar',
+                'amount.required' => 'amount wajib di isi',
                 'type.required'   => 'type wajib di isi',
             ]);
 
-            
             if ($validator->fails()) {
                 return $this->errorResponse($validator->errors(), 422);
             }
 
-            $request['receipt_uid'] = 'INV-'.uniqid().date('dmY');
-            $request['recipient'] = Auth::user()->name;
-            $request['donor_id']     = Donor::where('uuid', $request->uuid)->first()->id;
+            $payload = $request->all();
+            $payload['receipt_uid'] = 'INV-'.uniqid().date('dmY');
+            $payload['recipient']   = Auth::user()->name;
+            $payload['donor_id']    = Donor::where('uuid', $request->uuid)->first()->id;
+
+            if ($request->filled('bank_account')) {
+                $enum = BankAccount::tryFrom($request->bank_account);
+                if ($enum && $enum !== BankAccount::LAINNYA) {
+                    $payload['bank_account']   = $enum->value;
+                    $payload['bank_name']      = $enum->bankName();
+                    $payload['account_number'] = $enum->accountNumber();
+                    $payload['account_name']   = $enum->accountName();
+                } elseif ($request->bank_account === BankAccount::LAINNYA->value) {
+                    $payload['bank_account']   = BankAccount::LAINNYA->value;
+                    $payload['bank_name']      = $request->custom_bank_name ?: 'Bank BSI';
+                    $payload['account_number'] = $request->custom_account_number ?: '-';
+                    $payload['account_name']   = $request->custom_account_name ?: '-';
+                }
+            }
     
-            $donation = Donation::create($request->all())->load('donor');
+            $donation = Donation::create($payload)->load('donor');
             return $this->successResponse($donation);
 
         } catch (Exception $th) {
@@ -86,26 +100,41 @@ class DonationController extends Controller
     {
         try {
             $validator = Validator::make($request->all(),[
-                'uuid' => 'required|exists:donors,uuid',
-                'amount'   => 'required',
+                'uuid'   => 'required|exists:donors,uuid',
+                'amount' => 'required',
                 'type'   => 'required',
             ],[
-                'uuid.required' => 'uuid waji di isi',
-                'uuid.exists' => 'uuid tidak terdaftar',
-                'amount.required'   => 'amount wajib di isi',
+                'uuid.required'   => 'uuid wajib di isi',
+                'uuid.exists'     => 'uuid tidak terdaftar',
+                'amount.required' => 'amount wajib di isi',
                 'type.required'   => 'type wajib di isi',
             ]);
-
 
             if($validator->fails()){
                 return $this->errorResponse($validator->errors(), 422);
             }
 
-            $request['recipient'] = Auth::user()->name;
-            $request['donor_id']     = Donor::where('uuid', $request->uuid)->first()->id;
+            $payload = $request->all();
+            $payload['recipient'] = Auth::user()->name;
+            $payload['donor_id']  = Donor::where('uuid', $request->uuid)->first()->id;
+
+            if ($request->filled('bank_account')) {
+                $enum = BankAccount::tryFrom($request->bank_account);
+                if ($enum && $enum !== BankAccount::LAINNYA) {
+                    $payload['bank_account']   = $enum->value;
+                    $payload['bank_name']      = $enum->bankName();
+                    $payload['account_number'] = $enum->accountNumber();
+                    $payload['account_name']   = $enum->accountName();
+                } elseif ($request->bank_account === BankAccount::LAINNYA->value) {
+                    $payload['bank_account']   = BankAccount::LAINNYA->value;
+                    $payload['bank_name']      = $request->custom_bank_name ?: 'Bank BSI';
+                    $payload['account_number'] = $request->custom_account_number ?: '-';
+                    $payload['account_name']   = $request->custom_account_name ?: '-';
+                }
+            }
 
             $donation = Donation::findOrFail($id);
-            $donation->update($request->all());
+            $donation->update($payload);
             return $this->successResponse($donation);
 
         } catch (Exception $th) {
@@ -150,6 +179,4 @@ class DonationController extends Controller
             return $this->errorResponse('something error', 500, $th);
         }
     }
-
-    
 }

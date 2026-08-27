@@ -18,7 +18,7 @@ class DonorController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
+      *
      * @return \Illuminate\Http\Response
      */
     public function index()
@@ -198,6 +198,110 @@ class DonorController extends Controller
         $data['recipients'] = $this->newArray(User::where('status', 'active')->get());
 
         return view('donation.create', $data);
+    }
+
+    public function ajaxSearch(Request $request)
+    {
+        $q = trim($request->get('q', ''));
+        if (strlen($q) < 1) {
+            return response()->json([]);
+        }
+
+        // Split multi-word query (tokenized search)
+        $keywords = array_filter(preg_split('/\s+/', $q));
+        if (empty($keywords)) {
+            return response()->json([]);
+        }
+
+        $query = Donor::with(['province', 'regency', 'district']);
+
+        foreach ($keywords as $keyword) {
+            $cleanDigits = preg_replace('/[^0-9]/', '', $keyword);
+            $query->where(function($sub) use ($keyword, $cleanDigits) {
+                $sub->where('name', 'LIKE', "%{$keyword}%")
+                    ->orWhere('uuid', 'LIKE', "%{$keyword}%")
+                    ->orWhere('phone_number', 'LIKE', "%{$keyword}%")
+                    ->orWhere('address', 'LIKE', "%{$keyword}%")
+                    ->orWhereHas('regency', function($r) use ($keyword) {
+                        $r->where('name', 'LIKE', "%{$keyword}%");
+                    })
+                    ->orWhereHas('district', function($d) use ($keyword) {
+                        $d->where('name', 'LIKE', "%{$keyword}%");
+                    })
+                    ->orWhereHas('province', function($p) use ($keyword) {
+                        $p->where('name', 'LIKE', "%{$keyword}%");
+                    });
+
+                if (strlen($cleanDigits) >= 3) {
+                    $sub->orWhereRaw("REPLACE(REPLACE(REPLACE(phone_number, '-', ''), ' ', ''), '+', '') LIKE ?", ["%{$cleanDigits}%"]);
+                }
+            });
+        }
+
+        $rawResults = $query->limit(30)->get();
+
+        // Calculate relevance scores
+        $lowerQ = strtolower($q);
+        $scored = $rawResults->map(function($donor) use ($lowerQ, $keywords) {
+            $score = 0;
+            $lowerName = strtolower($donor->name ?? '');
+            $lowerUuid = strtolower($donor->uuid ?? '');
+            $lowerPhone = preg_replace('/[^0-9]/', '', $donor->phone_number ?? '');
+
+            // Exact or prefix name match gets highest score
+            if ($lowerName === $lowerQ) {
+                $score += 100;
+            } elseif (str_starts_with($lowerName, $lowerQ)) {
+                $score += 60;
+            } elseif (str_contains($lowerName, $lowerQ)) {
+                $score += 40;
+            }
+
+            // Exact or prefix UUID
+            if ($lowerUuid === $lowerQ || str_starts_with($lowerUuid, $lowerQ)) {
+                $score += 80;
+            } elseif (str_contains($lowerUuid, $lowerQ)) {
+                $score += 35;
+            }
+
+            // Keyword matches in name / uuid
+            foreach ($keywords as $kw) {
+                $lkw = strtolower($kw);
+                if (str_starts_with($lowerName, $lkw)) {
+                    $score += 20;
+                } elseif (str_contains($lowerName, $lkw)) {
+                    $score += 10;
+                }
+                if (str_contains($lowerUuid, $lkw)) {
+                    $score += 10;
+                }
+            }
+
+            $donor->search_score = $score;
+            return $donor;
+        })->sortByDesc('search_score')->values()->take(15);
+
+        // Format for frontend response
+        $results = $scored->map(function($donor) {
+            $locationParts = array_filter([
+                $donor->district ? ucwords(strtolower($donor->district->name)) : null,
+                $donor->regency ? ucwords(strtolower($donor->regency->name)) : null,
+                $donor->province ? ucwords(strtolower($donor->province->name)) : null,
+            ]);
+            $locationStr = implode(', ', $locationParts);
+
+            return [
+                'id'           => $donor->id,
+                'uuid'         => $donor->uuid,
+                'name'         => $donor->name,
+                'phone_number' => $donor->phone_number,
+                'address'      => $donor->address,
+                'location'     => $locationStr,
+                'formatted_label' => $donor->name . ' (' . $donor->uuid . ')' . ($locationStr ? ' - ' . $locationStr : ''),
+            ];
+        });
+
+        return response()->json($results);
     }
 
     public function exportExcel()
